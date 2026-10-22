@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Улей — бронирование коворкинга</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f4ef; --surface:#ffffff; --ink:#1c1b19; --mute:#6f6b63; --line:#e6e1d6;
+  --brand:#f2b632; --brand-ink:#3b2a00; --brand-soft:#fdf1d3; --green:#2f9e6b; --green-soft:#e2f4ea; --red:#d9534f; --taken:#d8d3c7;
+  --r:18px; --shadow:0 1px 2px rgba(28,27,25,.06),0 8px 28px rgba(28,27,25,.08);
+  --ease:cubic-bezier(.4,0,.2,1); --spring:cubic-bezier(.2,.9,.25,1.2);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Manrope,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none;padding:0}
+a{color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:52px;text-decoration:none;padding:0 24px;border-radius:14px;background:var(--ink);color:#fff;font-weight:700;transition:transform .15s var(--ease),background .2s,opacity .2s}
+.btn:hover{background:#000}
+.btn:active{transform:scale(.97)}
+.btn.brand{background:var(--brand);color:var(--brand-ink)}
+.btn.brand:hover{background:#f5c04d}
+.btn.ghost{background:transparent;border:1.5px solid var(--line);color:var(--ink)}
+.btn[disabled]{opacity:.35;pointer-events:none}
+
+/* ---------- header ---------- */
+header{position:sticky;top:0;z-index:20;background:rgba(246,244,239,.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .2s}
+header.scrolled{border-color:var(--line)}
+.hdr{display:flex;align-items:center;justify-content:space-between;height:68px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px}
+.logo svg{width:32px;height:32px}
+.hdr nav{display:flex;gap:28px;font-weight:600;color:var(--mute)}
+.hdr nav a{text-decoration:none}
+.hdr nav a:hover{color:var(--ink)}
+@media (max-width:760px){.hdr nav{display:none}.hdr .btn{height:42px;padding:0 16px}}
+
+/* ---------- landing ---------- */
+.hero{display:grid;grid-template-columns:1.05fr 1fr;gap:48px;align-items:center;padding:56px 0 40px}
+@media (max-width:900px){.hero{grid-template-columns:1fr;gap:28px;padding-top:28px}}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-weight:600;font-size:14px}
+.eyebrow i{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px var(--green-soft);animation:live 2s infinite}
+@keyframes live{50%{box-shadow:0 0 0 7px transparent}}
+h1{font-size:clamp(40px,6vw,68px);line-height:1.02;letter-spacing:-.03em;margin:18px 0 16px;font-weight:800}
+h1 em{font-style:normal;background:linear-gradient(transparent 62%,var(--brand) 62%)}
+.lead{font-size:clamp(17px,2vw,20px);color:var(--mute);max-width:520px;margin:0 0 28px}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap}
+.stats{display:flex;gap:28px;margin-top:32px}
+.stats b{display:block;font-size:28px;font-weight:800;letter-spacing:-.02em}
+.stats span{color:var(--mute);font-size:14px}
+.hero-art{position:relative;aspect-ratio:1/0.9;border-radius:28px;background:linear-gradient(160deg,#fbe6b1,#f2b632);overflow:hidden;box-shadow:var(--shadow)}
+.hero-art svg{position:absolute;inset:0;width:100%;height:100%}
+.float{position:absolute;background:var(--surface);border-radius:16px;box-shadow:var(--shadow);padding:12px 14px;font-weight:700;font-size:14px;display:flex;align-items:center;gap:10px;animation:float 5s ease-in-out infinite}
+.float small{display:block;color:var(--mute);font-weight:600;font-size:12px}
+@keyframes float{50%{transform:translateY(-8px)}}
+.section{padding:48px 0}
+h2{font-size:clamp(28px,4vw,40px);letter-spacing:-.02em;line-height:1.1;margin:0 0 24px;font-weight:800}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media (max-width:900px){.plans{grid-template-columns:1fr}}
+.plan{background:var(--surface);border:1.5px solid var(--line);border-radius:var(--r);padding:22px;display:flex;flex-direction:column;gap:10px;transition:transform .25s var(--ease),box-shadow .25s,border-color .25s}
+.plan:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:var(--brand)}
+.plan .ic{width:48px;height:48px;border-radius:14px;background:var(--brand-soft);display:grid;place-items:center;font-size:24px}
+.plan h3{margin:0;font-size:20px}
+.plan p{margin:0;color:var(--mute);font-size:15px}
+.plan .price{font-size:26px;font-weight:800;margin-top:auto}
+.plan .price small{font-size:14px;color:var(--mute);font-weight:600}
+.plan.pop{border-color:var(--ink);position:relative}
+.plan.pop::before{content:"Чаще берут";position:absolute;top:-12px;left:20px;background:var(--ink);color:#fff;font-size:12px;font-weight:700;border-radius:999px;padding:3px 10px}
+.amen{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+@media (max-width:900px){.amen{grid-template-columns:repeat(2,1fr)}}
+.amen div{background:var(--surface);border-radius:var(--r);padding:16px;font-weight:700;display:flex;gap:10px;align-items:center;border:1px solid var(--line)}
+.amen span{font-size:22px}
+footer{padding:40px 0 60px;color:var(--mute);font-size:14px}
+
+/* ---------- booking flow ---------- */
+#booking{position:fixed;inset:0;z-index:50;background:var(--bg);display:flex;flex-direction:column;transform:translateY(100%);transition:transform .5s var(--ease);visibility:hidden}
+#booking.on{transform:none;visibility:visible}
+.bk-top{height:68px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:16px;padding:0 20px;background:var(--surface)}
+.close{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-size:22px;background:var(--bg)}
+.steps{display:flex;gap:8px;align-items:center;flex:1;justify-content:center}
+.step{display:flex;align-items:center;gap:8px;font-weight:700;font-size:14px;color:var(--mute);transition:color .3s}
+.step i{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:13px;background:var(--bg);border:1.5px solid var(--line);transition:all .3s var(--spring)}
+.step.on{color:var(--ink)}
+.step.on i{background:var(--ink);color:#fff;border-color:var(--ink);transform:scale(1.1)}
+.step.done i{background:var(--green);border-color:var(--green);color:#fff}
+.step+.step::before{content:"";width:28px;height:2px;background:var(--line);margin-right:8px}
+@media (max-width:640px){.step span{display:none}.step+.step::before{width:16px}}
+.bk-body{flex:1;display:grid;grid-template-columns:1fr 360px;min-height:0}
+@media (max-width:900px){.bk-body{grid-template-columns:1fr}.summary{display:none!important}}
+.pane{position:relative;overflow:hidden}
+.page{position:absolute;inset:0;overflow-y:auto;padding:28px 28px 120px;transition:transform .45s var(--ease),opacity .45s var(--ease)}
+.page.left{transform:translateX(-40px);opacity:0;pointer-events:none}
+.page.right{transform:translateX(40px);opacity:0;pointer-events:none}
+@media (max-width:640px){.page{padding:20px 16px 140px}}
+.page h2{font-size:28px;margin-bottom:6px}
+.page .hint{color:var(--mute);margin:0 0 22px}
+.label{font-weight:800;margin:22px 0 10px;font-size:15px}
+.dates{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none}
+.dates::-webkit-scrollbar{display:none}
+.date{flex:0 0 72px;height:84px;border-radius:16px;background:var(--surface);border:1.5px solid var(--line);display:grid;place-items:center;align-content:center;gap:0;transition:all .2s var(--ease)}
+.date small{color:var(--mute);font-weight:700;font-size:12px;text-transform:uppercase}
+.date b{font-size:24px;line-height:1.1}
+.date.on{background:var(--ink);color:#fff;border-color:var(--ink);transform:translateY(-3px)}
+.date.on small{color:#cfcabd}
+.date.full{opacity:.4;pointer-events:none}
+.seg{display:inline-flex;background:var(--surface);border:1.5px solid var(--line);border-radius:14px;padding:4px;position:relative}
+.seg button{position:relative;z-index:1;height:40px;padding:0 16px;border-radius:10px;font-weight:700;font-size:14px;color:var(--mute);transition:color .25s}
+.seg button.on{color:var(--brand-ink)}
+.seg .thumb{position:absolute;top:4px;bottom:4px;border-radius:10px;background:var(--brand);transition:all .35s var(--spring)}
+.slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:10px}
+.slot{height:48px;border-radius:12px;background:var(--surface);border:1.5px solid var(--line);font-weight:700;transition:all .2s var(--ease);position:relative}
+.slot:hover{border-color:var(--ink)}
+.slot.taken{background:transparent;color:#b9b3a6;text-decoration:line-through;pointer-events:none;border-style:dashed}
+.slot.sel{background:var(--brand-soft);border-color:var(--brand)}
+.slot.edge{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
+.range{display:flex;align-items:center;gap:14px;margin-top:6px}
+.range input{flex:1;accent-color:var(--ink)}
+
+/* seat map */
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.chip{height:38px;padding:0 14px;border-radius:999px;background:var(--surface);border:1.5px solid var(--line);font-weight:700;font-size:14px;transition:all .2s}
+.chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.mapbox{position:relative;background:var(--surface);border-radius:22px;border:1px solid var(--line);padding:12px;box-shadow:var(--shadow)}
+.mapbox svg{width:100%;height:auto;display:block}
+.seat{cursor:pointer;transition:transform .25s var(--spring)}
+.seat rect{transition:fill .2s,stroke .2s}
+.seat:hover{transform:scale(1.08)}
+.seat.taken{cursor:not-allowed}
+.seat.taken:hover{transform:none}
+.seat.dim{opacity:.25}
+.seat.sel rect{fill:var(--ink)}
+.seat.sel text{fill:#fff}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--mute);font-weight:600;margin-top:12px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:4px;margin-right:6px;vertical-align:-1px}
+.tip{position:absolute;pointer-events:none;background:var(--ink);color:#fff;border-radius:12px;padding:8px 12px;font-size:13px;font-weight:600;white-space:nowrap;transform:translate(-50%,-120%) scale(.9);opacity:0;transition:opacity .15s,transform .15s}
+.tip.on{opacity:1;transform:translate(-50%,-120%)}
+
+/* form */
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.field label{font-weight:700;font-size:14px}
+.field input{height:52px;border-radius:14px;border:1.5px solid var(--line);background:var(--surface);padding:0 16px;outline:none;transition:border-color .2s,box-shadow .2s}
+.field input:focus{border-color:var(--ink);box-shadow:0 0 0 4px rgba(28,27,25,.08)}
+.field.err input{border-color:var(--red);animation:nudge .3s}
+.field .msg{font-size:13px;color:var(--red);min-height:18px}
+@keyframes nudge{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--mute)}
+.check input{width:20px;height:20px;accent-color:var(--ink);margin-top:2px}
+
+/* summary */
+.summary{background:var(--surface);border-left:1px solid var(--line);padding:28px 24px;display:flex;flex-direction:column;gap:14px}
+.sum-row{display:flex;justify-content:space-between;gap:12px;font-size:15px}
+.sum-row span{color:var(--mute)}
+.sum-row b{text-align:right}
+.total{font-size:30px;font-weight:800;letter-spacing:-.02em}
+.sum-card{background:var(--bg);border-radius:16px;padding:16px;display:grid;gap:10px}
+.empty{color:var(--mute);font-size:14px}
+.mbar{display:none;position:absolute;left:0;right:0;bottom:0;padding:14px 16px calc(14px + env(safe-area-inset-bottom));background:var(--surface);border-top:1px solid var(--line);align-items:center;gap:12px;z-index:5}
+.mbar .t{flex:1}
+.mbar .t b{font-size:22px;display:block;line-height:1.1}
+.mbar .t span{color:var(--mute);font-size:13px}
+@media (max-width:900px){.mbar{display:flex}}
+.next-desktop{margin-top:auto}
+
+/* confirmation */
+.done-wrap{max-width:520px;margin:20px auto;text-align:center}
+.tick{width:96px;height:96px;margin:0 auto 18px}
+.tick circle{stroke-dasharray:283;stroke-dashoffset:283;animation:draw .6s var(--ease) forwards}
+.tick path{stroke-dasharray:60;stroke-dashoffset:60;animation:draw .4s .5s var(--ease) forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.ticket{background:var(--surface);border-radius:22px;box-shadow:var(--shadow);padding:22px;display:grid;grid-template-columns:1fr 110px;gap:16px;text-align:left;margin:22px 0;position:relative}
+.ticket::before,.ticket::after{content:"";position:absolute;width:24px;height:24px;border-radius:50%;background:var(--bg);top:50%;margin-top:-12px}
+.ticket::before{left:-12px}.ticket::after{right:-12px}
+.ticket .k{color:var(--mute);font-size:13px;font-weight:600}
+.ticket .v{font-weight:800;margin-bottom:8px}
+.qr{width:110px;height:110px}
+.skel{border-radius:14px;background:linear-gradient(90deg,#ece8de 25%,#f6f3ec 50%,#ece8de 75%);background-size:200% 100%;animation:sk 1.2s infinite}
+@keyframes sk{to{background-position:-200% 0}}
+.toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);opacity:0;background:var(--ink);color:#fff;padding:12px 18px;border-radius:14px;font-weight:700;z-index:90;transition:all .3s var(--spring)}
+.toast.on{transform:translate(-50%,0);opacity:1}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<header id="hdr"><div class="wrap hdr">
+  <div class="logo"><svg viewBox="0 0 32 32"><path d="M16 2l12 7v14l-12 7-12-7V9z" fill="#f2b632"/><path d="M16 9l6 3.5v7L16 23l-6-3.5v-7z" fill="#1c1b19"/></svg>Улей</div>
+  <nav><a href="#plans">Тарифы</a><a href="#amen">Что внутри</a><a href="#where">Как добраться</a></nav>
+  <button class="btn brand" data-open>Забронировать</button>
+</div></header>
+
+<main class="wrap">
+  <section class="hero">
+    <div>
+      <span class="eyebrow"><i></i><span id="freeNow">Сейчас свободно 14 мест</span></span>
+      <h1>Работайте там, где <em>думается</em></h1>
+      <p class="lead">Коворкинг в центре Гомеля: тихая зона, переговорки и кофе без ограничений. Бронь места на час, день или месяц — за 30 секунд и без звонков.</p>
+      <div class="hero-cta"><button class="btn brand" data-open>Выбрать место →</button><a class="btn ghost" href="#plans">Тарифы</a></div>
+      <div class="stats"><div><b>48</b><span>рабочих мест</span></div><div><b>24/7</b><span>для резидентов</span></div><div><b>4,9★</b><span>320 отзывов</span></div></div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <svg viewBox="0 0 400 360">
+        <rect x="40" y="200" width="320" height="18" rx="9" fill="#1c1b19" opacity=".9"/>
+        <rect x="70" y="218" width="10" height="90" fill="#1c1b19" opacity=".8"/><rect x="320" y="218" width="10" height="90" fill="#1c1b19" opacity=".8"/>
+        <rect x="120" y="120" width="130" height="82" rx="10" fill="#fff"/><rect x="128" y="128" width="114" height="64" rx="6" fill="#1c1b19"/>
+        <rect x="138" y="140" width="60" height="6" rx="3" fill="#f2b632"/><rect x="138" y="152" width="84" height="6" rx="3" fill="#fff" opacity=".5"/><rect x="138" y="164" width="40" height="6" rx="3" fill="#fff" opacity=".5"/>
+        <circle cx="300" cy="186" r="14" fill="#fff"/><rect x="292" y="168" width="16" height="6" rx="3" fill="#fff" opacity=".7"/>
+        <path d="M60 200c0-40 10-70 30-80" stroke="#2f9e6b" stroke-width="6" fill="none" stroke-linecap="round"/><ellipse cx="88" cy="118" rx="18" ry="9" fill="#2f9e6b"/><ellipse cx="70" cy="140" rx="16" ry="8" fill="#2f9e6b" transform="rotate(-30 70 140)"/>
+        <rect x="48" y="188" width="28" height="14" rx="4" fill="#fff"/>
+      </svg>
+      <div class="float" style="left:20px;top:22px">☕ <div>Кофе включён<small>в любой тариф</small></div></div>
+      <div class="float" style="right:20px;bottom:24px;animation-delay:-2s">🟢 <div>Место A7 свободно<small>у окна · монитор</small></div></div>
+    </div>
+  </section>
+
+  <section class="section" id="plans">
+    <h2>Тарифы</h2>
+    <div class="plans">
+      <div class="plan"><div class="ic">🪑</div><h3>Гостевой час</h3><p>Любое свободное место в общем зале. Для встречи или пары задач.</p><div class="price">12 BYN <small>/ час</small></div><button class="btn ghost" data-open data-plan="hour">Выбрать</button></div>
+      <div class="plan pop"><div class="ic">🖥️</div><h3>Рабочий день</h3><p>Место на день с 8:00 до 22:00, кофе и печать до 20 листов.</p><div class="price">35 BYN <small>/ день</small></div><button class="btn" data-open data-plan="day">Выбрать</button></div>
+      <div class="plan"><div class="ic">🔑</div><h3>Резидент</h3><p>Своё закреплённое место, локер и доступ 24/7.</p><div class="price">390 BYN <small>/ месяц</small></div><button class="btn ghost" data-open data-plan="month">Выбрать</button></div>
+    </div>
+  </section>
+
+  <section class="section" id="amen">
+    <h2>Что внутри</h2>
+    <div class="amen"><div><span>🤫</span>Тихая зона</div><div><span>📺</span>3 переговорки</div><div><span>⚡</span>Гигабит Wi-Fi</div><div><span>🖨️</span>Печать и сканер</div><div><span>🛋️</span>Лаунж</div><div><span>🚿</span>Душ</div><div><span>🔒</span>Локеры</div><div><span>🚲</span>Велопарковка</div></div>
+  </section>
+  <section class="section" id="where"><h2>Как добраться</h2><p class="lead">ул. Советская, 21, 3 этаж · 5 минут от площади Ленина. Демо-адрес.</p></section>
+  <footer>Улей — демо-проект UI/UX. Сделано с ИИ. Бронирование ненастоящее.</footer>
+</main>
+
+<!-- ---------- booking ---------- -->
+<section id="booking" aria-label="Бронирование">
+  <div class="bk-top">
+    <button class="close" id="closeBk" aria-label="Закрыть">×</button>
+    <div class="steps" id="steps"><div class="step on"><i>1</i><span>Дата и время</span></div><div class="step"><i>2</i><span>Место</span></div><div class="step"><i>3</i><span>Контакты</span></div></div>
+    <div style="width:40px"></div>
+  </div>
+  <div class="bk-body">
+    <div class="pane" id="pane">
+      <!-- step 1 -->
+      <div class="page" id="p1">
+        <h2>Когда придёте?</h2><p class="hint">Выберите день и время — покажем, какие места свободны.</p>
+        <div class="seg" id="planSeg"><span class="thumb"></span><button data-plan="hour" class="on">Почасово</button><button data-plan="day">День</button><button data-plan="month">Месяц</button></div>
+        <div class="label">Дата</div><div class="dates" id="dates"></div>
+        <div id="timeBlock">
+          <div class="label">Начало</div><div class="slots" id="slots"></div>
+          <div class="label">Длительность: <span id="durLabel">2 часа</span></div>
+          <div class="range"><span>1 ч</span><input type="range" id="dur" min="1" max="6" value="2"><span>6 ч</span></div>
+        </div>
+      </div>
+      <!-- step 2 -->
+      <div class="page right" id="p2">
+        <h2>Выберите место</h2><p class="hint">Наведите на место, чтобы увидеть детали. Серые уже заняты на это время.</p>
+        <div class="filters" id="filters"><button class="chip" data-f="window">🪟 У окна</button><button class="chip" data-f="monitor">🖥️ С монитором</button><button class="chip" data-f="quiet">🤫 Тихая зона</button></div>
+        <div class="mapbox" id="mapbox"><div id="mapSkel" class="skel" style="height:320px"></div><svg id="seatMap" viewBox="0 0 640 400" style="display:none"></svg><div class="tip" id="tip"></div></div>
+        <div class="legend"><span><i style="background:var(--green-soft);border:1.5px solid var(--green)"></i>Свободно</span><span><i style="background:var(--taken)"></i>Занято</span><span><i style="background:var(--ink)"></i>Ваш выбор</span></div>
+      </div>
+      <!-- step 3 -->
+      <div class="page right" id="p3">
+        <h2>Почти готово</h2><p class="hint">Пришлём подтверждение и QR-код для входа.</p>
+        <form id="form" novalidate style="max-width:460px">
+          <div class="field"><label for="name">Имя</label><input id="name" autocomplete="name" placeholder="Как к вам обращаться"><span class="msg"></span></div>
+          <div class="field"><label for="phone">Телефон</label><input id="phone" inputmode="tel" autocomplete="tel" placeholder="+375 (29) 000-00-00"><span class="msg"></span></div>
+          <div class="field"><label for="promo">Промокод</label><input id="promo" placeholder="Например, FIRST"><span class="msg" id="promoMsg" style="color:var(--green)"></span></div>
+          <label class="check"><input type="checkbox" id="agree"> Согласен с правилами коворкинга и обработкой данных</label>
+        </form>
+      </div>
+      <!-- step 4 -->
+      <div class="page right" id="p4">
+        <div class="done-wrap">
+          <svg class="tick" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="none" stroke="#2f9e6b" stroke-width="6"/><path d="M30 52l13 13 27-29" fill="none" stroke="#2f9e6b" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <h2>Место ваше!</h2><p class="hint">Подтверждение придёт в SMS. Покажите QR-код на ресепшене.</p>
+          <div class="ticket"><div id="ticketInfo"></div><svg class="qr" id="qr" viewBox="0 0 25 25" shape-rendering="crispEdges"></svg></div>
+          <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><button class="btn ghost" id="addCal">📅 В календарь</button><button class="btn" id="finish">Готово</button></div>
+        </div>
+      </div>
+      <div class="mbar" id="mbar"><div class="t"><b id="mTotal">—</b><span id="mInfo">Выберите время</span></div><button class="btn brand" id="mNext" disabled>Далее</button></div>
+    </div>
+    <aside class="summary" id="summary">
+      <div style="font-weight:800;font-size:18px">Ваша бронь</div>
+      <div class="sum-card" id="sumCard"><span class="empty">Пока ничего не выбрано</span></div>
+      <div class="sum-row" id="discRow" style="display:none"><span>Скидка</span><b id="disc" style="color:var(--green)"></b></div>
+      <div class="sum-row"><span>Итого</span></div>
+      <div class="total" id="total">0 BYN</div>
+      <button class="btn brand next-desktop" id="dNext" disabled>Далее</button>
+      <button class="btn ghost" id="dBack" style="display:none">Назад</button>
+    </aside>
+  </div>
+</section>
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+const PRICE = { hour: 12, day: 35, month: 390 };
+const S = { step: 1, plan: "hour", date: null, start: null, dur: 2, seat: null, filters: new Set(), promo: 0 };
+const DAYS = ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"], MONTHS = ["янв", "фев", "мар", "апр", "мая", "июн", "июл", "авг", "сен", "окт", "ноя", "дек"];
+
+/* ---------- small helpers ---------- */
+function toast(t) { const el = $("#toast"); el.textContent = t; el.classList.add("on"); clearTimeout(el._h); el._h = setTimeout(() => el.classList.remove("on"), 1800); }
+// Deterministic pseudo-random so availability looks real but stays stable per date/time.
+function rnd(seed) { let x = Math.sin(seed * 9301 + 49297) * 233280; return x - Math.floor(x); }
+function tweenNum(el, to, suffix = " BYN") {
+  const from = parseFloat(el.textContent) || 0, t0 = performance.now();
+  const step = n => { const k = Math.min(1, (n - t0) / 450); el.textContent = Math.round(from + (to - from) * (1 - Math.pow(1 - k, 3))) + suffix; if (k < 1) requestAnimationFrame(step); };
+  requestAnimationFrame(step);
+}
+addEventListener("scroll", () => $("#hdr").classList.toggle("scrolled", scrollY > 10));
+setInterval(() => { $("#freeNow").textContent = `Сейчас свободно ${12 + Math.floor(Math.random() * 5)} мест`; }, 4000);
+
+/* ---------- open / close ---------- */
+$$("[data-open]").forEach(b => b.addEventListener("click", () => {
+  if (b.dataset.plan) setPlan(b.dataset.plan);
+  $("#booking").classList.add("on"); document.body.style.overflow = "hidden";
+}));
+$("#closeBk").addEventListener("click", closeBooking);
+function closeBooking() { $("#booking").classList.remove("on"); document.body.style.overflow = ""; }
+addEventListener("keydown", e => { if (e.key === "Escape") closeBooking(); });
+
+/* ---------- step 1: plan, date, time ---------- */
+function placeThumb() {
+  const b = $(`#planSeg button[data-plan="${S.plan}"]`), th = $("#planSeg .thumb");
+  th.style.left = b.offsetLeft + "px"; th.style.width = b.offsetWidth + "px";
+}
+function setPlan(p) {
+  S.plan = p; S.start = p === "hour" ? S.start : null;
+  $$("#planSeg button").forEach(b => b.classList.toggle("on", b.dataset.plan === p));
+  $("#timeBlock").style.display = p === "hour" ? "" : "none";
+  requestAnimationFrame(placeThumb); update();
+}
+$$("#planSeg button").forEach(b => b.addEventListener("click", () => setPlan(b.dataset.plan)));
+(function dates() {
+  const box = $("#dates"), now = new Date(2026, 9, 23);
+  for (let i = 0; i < 14; i++) {
+    const d = new Date(now); d.setDate(now.getDate() + i);
+    const el = document.createElement("button"); el.className = "date" + (d.getDay() === 0 && i > 3 ? " full" : "");
+    el.innerHTML = `<small>${i === 0 ? "Сегодня" : DAYS[d.getDay()]}</small><b>${d.getDate()}</b><small>${MONTHS[d.getMonth()]}</small>`;
+    el.addEventListener("click", () => { S.date = d; S.start = null; S.seat = null; $$(".date").forEach(x => x.classList.remove("on")); el.classList.add("on"); renderSlots(); update(); });
+    box.appendChild(el);
+    if (i === 0) setTimeout(() => el.click(), 0);
+  }
+})();
+function renderSlots() {
+  const box = $("#slots"); box.innerHTML = "";
+  for (let h = 8; h <= 21; h++) {
+    const el = document.createElement("button"), busy = rnd(S.date.getDate() * 31 + h) < .22;
+    el.className = "slot" + (busy ? " taken" : ""); el.textContent = `${h}:00`; el.dataset.h = h;
+    el.addEventListener("click", () => { S.start = h; S.seat = null; paintSlots(); update(); });
+    box.appendChild(el);
+  }
+  paintSlots();
+}
+function paintSlots() {
+  $$(".slot").forEach(el => {
+    const h = +el.dataset.h, inRange = S.start !== null && h >= S.start && h < S.start + S.dur;
+    el.classList.toggle("sel", inRange); el.classList.toggle("edge", h === S.start);
+  });
+}
+$("#dur").addEventListener("input", e => {
+  S.dur = +e.target.value; $("#durLabel").textContent = S.dur + (S.dur === 1 ? " час" : S.dur < 5 ? " часа" : " часов");
+  if (S.start !== null && S.start + S.dur > 22) S.start = 22 - S.dur;
+  paintSlots(); update();
+});
+
+/* ---------- step 2: seat map ---------- */
+const SEATS = [];
+(function buildSeats() {
+  // Three zones: open space by the windows, quiet zone, monitor desks.
+  const rows = [
+    { y: 70, x0: 60, n: 6, zone: "open", window: true, monitor: false, pre: "A" },
+    { y: 140, x0: 60, n: 6, zone: "open", window: false, monitor: true, pre: "B" },
+    { y: 250, x0: 60, n: 4, zone: "quiet", window: false, monitor: true, pre: "Q" },
+    { y: 320, x0: 60, n: 4, zone: "quiet", window: true, monitor: false, pre: "W" },
+  ];
+  for (const r of rows) for (let i = 0; i < r.n; i++) SEATS.push({ id: r.pre + (i + 1), x: r.x0 + i * 62, y: r.y, ...r });
+})();
+function renderMap() {
+  const svg = $("#seatMap"); const key = (S.date ? S.date.getDate() : 0) * 100 + (S.start || 0);
+  let h = `<rect x="10" y="10" width="620" height="380" rx="18" fill="#faf8f3" stroke="#e6e1d6"/>
+    <rect x="10" y="10" width="620" height="16" rx="8" fill="#cfe6f5"/><text x="320" y="22" text-anchor="middle" font-size="10" fill="#6f6b63" font-weight="700">ОКНА</text>
+    <rect x="40" y="215" width="270" height="160" rx="14" fill="#efeadf"/><text x="52" y="236" font-size="12" fill="#6f6b63" font-weight="700">ТИХАЯ ЗОНА</text>
+    <rect x="440" y="215" width="170" height="80" rx="14" fill="#fdf1d3" stroke="#f2b632"/><text x="525" y="260" text-anchor="middle" font-size="13" font-weight="800" fill="#3b2a00">Переговорка</text>
+    <rect x="440" y="310" width="170" height="65" rx="14" fill="#e2f4ea"/><text x="525" y="347" text-anchor="middle" font-size="13" font-weight="800" fill="#2f9e6b">☕ Кофе-поинт</text>
+    <rect x="470" y="60" width="120" height="110" rx="55" fill="#efeadf"/><text x="530" y="120" text-anchor="middle" font-size="12" fill="#6f6b63" font-weight="700">Лаунж</text>`;
+  for (const s of SEATS) {
+    s.taken = rnd(key + s.id.charCodeAt(0) * 7 + +s.id.slice(1) * 13) < .35;
+    const fit = [...S.filters].every(f => f === "quiet" ? s.zone === "quiet" : s[f]);
+    const cls = `seat${s.taken ? " taken" : ""}${S.seat === s.id ? " sel" : ""}${!fit ? " dim" : ""}`;
+    const fill = s.taken ? "var(--taken)" : "var(--green-soft)", stroke = s.taken ? "var(--taken)" : "var(--green)";
+    h += `<g class="${cls}" data-id="${s.id}" style="transform-origin:${s.x + 22}px ${s.y + 18}px">
+      <rect x="${s.x}" y="${s.y}" width="44" height="36" rx="9" fill="${fill}" stroke="${stroke}" stroke-width="2"/>
+      ${s.monitor ? `<rect x="${s.x + 14}" y="${s.y + 4}" width="16" height="3" rx="1.5" fill="${s.taken ? "#bdb7aa" : "var(--green)"}"/>` : ""}
+      <text x="${s.x + 22}" y="${s.y + 24}" text-anchor="middle" font-size="12" font-weight="800" fill="${s.taken ? "#9a9488" : "#1c1b19"}">${s.id}</text></g>`;
+  }
+  svg.innerHTML = h;
+  $$("#seatMap .seat").forEach(g => {
+    const s = SEATS.find(x => x.id === g.dataset.id);
+    g.addEventListener("click", () => {
+      if (s.taken) { toast(`${s.id} уже занято на это время`); return; }
+      S.seat = S.seat === s.id ? null : s.id; renderMap(); update();
+    });
+    g.addEventListener("mouseenter", () => showTip(g, s)); g.addEventListener("mouseleave", () => $("#tip").classList.remove("on"));
+  });
+}
+function showTip(g, s) {
+  const box = $("#mapbox").getBoundingClientRect(), r = g.getBoundingClientRect(), tip = $("#tip");
+  tip.innerHTML = `<b>${s.id}</b> · ${s.taken ? "занято" : "свободно"}<br>${[s.window && "у окна", s.monitor && "монитор 27″", s.zone === "quiet" && "тихая зона"].filter(Boolean).join(" · ") || "общий зал"}`;
+  tip.style.left = (r.left - box.left + r.width / 2) + "px"; tip.style.top = (r.top - box.top) + "px"; tip.classList.add("on");
+}
+$$("#filters .chip").forEach(c => c.addEventListener("click", () => {
+  const f = c.dataset.f; S.filters.has(f) ? S.filters.delete(f) : S.filters.add(f);
+  c.classList.toggle("on"); renderMap();
+}));
+
+/* ---------- step 3: form ---------- */
+$("#phone").addEventListener("input", e => {
+  // Belarusian phone mask: +375 (XX) XXX-XX-XX
+  let d = e.target.value.replace(/\D/g, ""); if (d.startsWith("375")) d = d.slice(3); d = d.slice(0, 9);
+  let out = "+375"; if (d.length) out += " (" + d.slice(0, 2); if (d.length >= 2) out += ") " + d.slice(2, 5); if (d.length >= 5) out += "-" + d.slice(5, 7); if (d.length >= 7) out += "-" + d.slice(7, 9);
+  e.target.value = out; update();
+});
+$("#name").addEventListener("input", update); $("#agree").addEventListener("change", update);
+$("#promo").addEventListener("input", e => {
+  const ok = e.target.value.trim().toUpperCase() === "FIRST";
+  S.promo = ok ? .2 : 0; $("#promoMsg").textContent = ok ? "−20% на первую бронь" : ""; update();
+});
+function validate(show) {
+  const name = $("#name").value.trim(), phone = $("#phone").value.replace(/\D/g, "");
+  const errs = { name: name.length < 2 ? "Введите имя" : "", phone: phone.length !== 12 ? "Номер в формате +375 (29) 000-00-00" : "" };
+  if (show) for (const k of ["name", "phone"]) { const f = $("#" + k).closest(".field"); f.classList.toggle("err", !!errs[k]); f.querySelector(".msg").textContent = errs[k]; }
+  return !errs.name && !errs.phone && $("#agree").checked;
+}
+
+/* ---------- summary & step logic ---------- */
+function price() { return S.plan === "hour" ? PRICE.hour * S.dur : PRICE[S.plan]; }
+function canNext() {
+  if (S.step === 1) return !!S.date && (S.plan !== "hour" || S.start !== null);
+  if (S.step === 2) return !!S.seat;
+  if (S.step === 3) return validate(false);
+  return false;
+}
+function update() {
+  const base = S.date && (S.plan !== "hour" || S.start !== null) ? price() : 0, disc = Math.round(base * S.promo), total = base - disc;
+  const when = S.date ? `${S.date.getDate()} ${MONTHS[S.date.getMonth()]}` : "—";
+  const time = S.plan === "hour" ? (S.start !== null ? `${S.start}:00–${S.start + S.dur}:00` : "—") : S.plan === "day" ? "8:00–22:00" : "30 дней";
+  $("#sumCard").innerHTML = S.date ? `<div class="sum-row"><span>Тариф</span><b>${{ hour: "Почасово", day: "Рабочий день", month: "Резидент" }[S.plan]}</b></div>
+    <div class="sum-row"><span>Дата</span><b>${when}</b></div><div class="sum-row"><span>Время</span><b>${time}</b></div>
+    <div class="sum-row"><span>Место</span><b>${S.seat || "—"}</b></div>` : `<span class="empty">Пока ничего не выбрано</span>`;
+  $("#discRow").style.display = disc ? "" : "none"; $("#disc").textContent = "−" + disc + " BYN";
+  tweenNum($("#total"), total); tweenNum($("#mTotal"), total);
+  $("#mInfo").textContent = [when, time !== "—" && time, S.seat].filter(Boolean).join(" · ") || "Выберите время";
+  const ok = canNext(), label = S.step === 3 ? `Оплатить ${total} BYN` : "Далее";
+  for (const id of ["#dNext", "#mNext"]) { $(id).disabled = !ok && S.step !== 3; $(id).textContent = label; }
+  $("#dBack").style.display = S.step > 1 && S.step < 4 ? "" : "none";
+}
+function goStep(n) {
+  const prev = S.step; S.step = n;
+  for (let i = 1; i <= 4; i++) $("#p" + i).className = "page" + (i < n ? " left" : i > n ? " right" : "");
+  $$("#steps .step").forEach((el, i) => { el.classList.toggle("on", i + 1 === n); el.classList.toggle("done", i + 1 < n); });
+  if (n === 2) { $("#seatMap").style.display = "none"; $("#mapSkel").style.display = ""; setTimeout(() => { $("#mapSkel").style.display = "none"; $("#seatMap").style.display = ""; renderMap(); }, prev === 1 ? 500 : 0); }
+  if (n === 4) confirmBooking();
+  $("#summary").style.display = n === 4 ? "none" : ""; $("#mbar").style.display = n === 4 ? "none" : "";
+  update();
+}
+function next() {
+  if (S.step === 3 && !validate(true)) { if (!$("#agree").checked && $("#name").value && $("#phone").value.length > 15) toast("Отметьте согласие с правилами"); return; }
+  if (canNext() || S.step === 3) goStep(S.step + 1);
+}
+$("#dNext").addEventListener("click", next); $("#mNext").addEventListener("click", next);
+$("#dBack").addEventListener("click", () => goStep(S.step - 1));
+
+/* ---------- step 4: confirmation ---------- */
+function confirmBooking() {
+  const code = "HV-" + (1000 + Math.floor(rnd(Date.now() % 1000) * 9000));
+  $("#ticketInfo").innerHTML = `<div class="k">Бронь</div><div class="v">${code}</div><div class="k">Когда</div><div class="v">${S.date.getDate()} ${MONTHS[S.date.getMonth()]}, ${S.plan === "hour" ? `${S.start}:00–${S.start + S.dur}:00` : S.plan === "day" ? "весь день" : "30 дней"}</div><div class="k">Место</div><div class="v">${S.seat} · ${$("#name").value.trim()}</div>`;
+  // Decorative QR-like pattern seeded from the booking code (not a scannable QR).
+  let q = ""; const fin = (x, y) => `<rect x="${x}" y="${y}" width="7" height="7" fill="#1c1b19"/><rect x="${x + 1}" y="${y + 1}" width="5" height="5" fill="#fff"/><rect x="${x + 2}" y="${y + 2}" width="3" height="3" fill="#1c1b19"/>`;
+  for (let y = 0; y < 25; y++) for (let x = 0; x < 25; x++) { const corner = (x < 8 && y < 8) || (x > 16 && y < 8) || (x < 8 && y > 16); if (!corner && rnd(code.charCodeAt(3) * 97 + x * 31 + y * 17) > .5) q += `<rect x="${x}" y="${y}" width="1" height="1" fill="#1c1b19"/>`; }
+  $("#qr").innerHTML = q + fin(0, 0) + fin(18, 0) + fin(0, 18);
+}
+$("#finish").addEventListener("click", () => { closeBooking(); setTimeout(() => location.reload(), 500); });
+$("#addCal").addEventListener("click", () => toast("Событие добавлено в календарь (демо)"));
+addEventListener("resize", placeThumb);
+setPlan("hour");
+
+/* ---------- guided tour for the case page ---------- */
+const TOUR = [
+  [700, () => $("[data-open]").click()], [1200, () => $$(".date")[2].click()], [900, () => $$(".slot:not(.taken)")[2].click()],
+  [800, () => { $("#dur").value = 3; $("#dur").dispatchEvent(new Event("input")); }], [1000, () => next()],
+  [1500, () => $$("#filters .chip")[1].click()], [1000, () => { const s = SEATS.find(x => !x.taken && x.monitor); s && $(`.seat[data-id="${s.id}"]`).dispatchEvent(new Event("click")); }],
+  [1100, () => next()], [700, () => { $("#name").value = "Арсений"; $("#name").dispatchEvent(new Event("input")); }],
+  [700, () => { $("#phone").value = "291234567"; $("#phone").dispatchEvent(new Event("input")); }],
+  [700, () => { $("#promo").value = "FIRST"; $("#promo").dispatchEvent(new Event("input")); }], [700, () => { $("#agree").checked = true; update(); }],
+  [1000, () => next()]
+];
+async function tour() { for (const [w, a] of TOUR) { await new Promise(r => setTimeout(r, w)); a(); } parent.postMessage({ type: "tour-done" }, "*"); }
+addEventListener("message", e => { if (e.data === "tour") tour(); });
+if (new URLSearchParams(location.search).get("tour")) setTimeout(tour, 600);
+</script>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Улей — UX-кейс бронирования коворкинга</title>
+<meta name="description" content="UX/UI-кейс: лендинг и сценарий бронирования места в коворкинге за 30 секунд — дата и время, интерактивная карта мест, контакты, подтверждение с QR. Desktop и mobile. Сделано с ИИ.">
+<meta property="og:image" content="https://condrusarsen.github.io/coworking-case/shots/desktop-2-seat.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6f4ef;--ink:#1c1b19;--mute:#6f6b63;--line:#e6e1d6;--brand:#f2b632;--surface:#fff}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 Manrope,system-ui,sans-serif}
+a{color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+.tag{display:inline-block;font-weight:700;font-size:13px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:5px 12px}
+h1{font-size:clamp(36px,6vw,60px);line-height:1.03;letter-spacing:-.03em;margin:16px 0 12px;font-weight:800}
+h2{font-size:clamp(26px,4vw,36px);letter-spacing:-.02em;margin:56px 0 18px;font-weight:800}
+.lead{color:var(--mute);font-size:clamp(17px,2vw,19px);max-width:720px}
+.btn{display:inline-flex;align-items:center;height:52px;padding:0 22px;border-radius:14px;font-weight:800;text-decoration:none;background:var(--brand);color:#3b2a00;border:0;cursor:pointer;font-size:16px}
+.btn.alt{background:var(--surface);border:1.5px solid var(--line);color:var(--ink)}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin:22px 0 8px}
+.stage{display:grid;grid-template-columns:1fr 300px;gap:24px;align-items:start;margin-top:28px}
+@media (max-width:980px){.stage{grid-template-columns:1fr}}
+.browser{border-radius:18px;overflow:hidden;background:var(--surface);box-shadow:0 30px 60px rgba(28,27,25,.15);border:1px solid var(--line)}
+.browser .bar{height:36px;display:flex;align-items:center;gap:6px;padding:0 14px;background:#efeadf}
+.browser .bar i{width:11px;height:11px;border-radius:50%;background:#d8d3c7}
+.browser iframe{width:100%;height:640px;border:0;display:block}
+.phone{width:300px;aspect-ratio:390/844;border-radius:40px;padding:10px;background:#1c1b19;box-shadow:0 30px 60px rgba(28,27,25,.25);margin:0 auto}
+.phone iframe{width:100%;height:100%;border:0;border-radius:31px;background:var(--bg)}
+@media (max-width:980px){.browser{display:none}}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:20px}
+.card h3{margin:0 0 6px;font-size:19px}
+.card p{margin:0;color:var(--mute);font-size:15px}
+.shots{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.shots img{width:100%;border-radius:14px;border:1px solid var(--line);display:block}
+.shots figure{margin:0}
+.shots figcaption{color:var(--mute);font-size:14px;margin-top:6px}
+.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-weight:700}
+.flow span{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:8px 12px}
+.flow b{color:var(--mute)}
+.ai{background:#fdf1d3;border-radius:18px;padding:22px}
+.cta{background:var(--ink);color:#fff;border-radius:24px;padding:28px;margin:56px 0 24px}
+.cta .lead{color:#cfcabd}
+footer{padding:12px 0 48px;color:var(--mute);font-size:14px}
+</style>
+</head>
+<body>
+<div class="wrap" style="padding-top:40px">
+  <span class="tag">UX/UI · веб-сервис · desktop + mobile</span>
+  <h1>Улей: бронь места в коворкинге за 30 секунд</h1>
+  <p class="lead">Лендинг и полный сценарий бронирования: выбор тарифа, даты и времени, интерактивная карта мест с фильтрами, контакты с маской телефона и промокодом, подтверждение с QR-кодом. Без звонков менеджеру.</p>
+  <div class="btns"><button class="btn" id="tourBtn">▶ Смотреть авто-тур</button><a class="btn alt" href="app.html" target="_blank" rel="noopener">Открыть прототип</a></div>
+
+  <div class="stage">
+    <div class="browser"><div class="bar"><i></i><i></i><i></i></div><iframe id="desk" src="app.html" title="Прототип — компьютер"></iframe></div>
+    <div class="phone"><iframe id="mob" src="app.html" title="Прототип — телефон"></iframe></div>
+  </div>
+
+  <h2>Сценарий</h2>
+  <div class="flow"><span>Лендинг</span><b>→</b><span>Тариф, дата, время</span><b>→</b><span>Карта мест</span><b>→</b><span>Контакты</span><b>→</b><span>Подтверждение + QR</span></div>
+
+  <h2>UX-решения</h2>
+  <div class="grid">
+    <div class="card"><h3>Сначала время, потом место</h3><p>Свободные места зависят от времени, поэтому карту показываем уже отфильтрованной. Пользователь не выбирает место, которое потом окажется занято.</p></div>
+    <div class="card"><h3>Карта вместо списка</h3><p>Люди выбирают «у окна» или «подальше от кофе-поинта». План зала с зонами, фильтрами и подсказками при наведении отвечает на эти вопросы быстрее любого списка.</p></div>
+    <div class="card"><h3>Итог всегда на виду</h3><p>На компьютере — боковая панель с бронью и суммой, на телефоне — нижняя панель с ценой и кнопкой «Далее». Сумма плавно пересчитывается при каждом изменении.</p></div>
+    <div class="card"><h3>Живая проверка формы</h3><p>Маска белорусского номера, понятные ошибки под полями, промокод применяется сразу. Кнопка оплаты показывает итоговую сумму.</p></div>
+    <div class="card"><h3>Ощущение «живого» места</h3><p>Счётчик свободных мест на главной, скелетон при загрузке карты, анимированная галочка и билет с QR на финале.</p></div>
+    <div class="card"><h3>Доступность</h3><p>Навигация с клавиатуры, Esc закрывает бронь, учтён <code>prefers-reduced-motion</code>, контрастные состояния мест: свободно, занято, выбрано.</p></div>
+  </div>
+
+  <h2>Экраны</h2>
+  <div class="shots">
+    <figure><img src="shots/desktop-0-landing.png" alt="Лендинг" loading="lazy"><figcaption>Лендинг</figcaption></figure>
+    <figure><img src="shots/desktop-1-time.png" alt="Дата и время" loading="lazy"><figcaption>Шаг 1: тариф, дата, время</figcaption></figure>
+    <figure><img src="shots/desktop-2-seat.png" alt="Карта мест" loading="lazy"><figcaption>Шаг 2: карта мест с фильтрами</figcaption></figure>
+    <figure><img src="shots/desktop-3-form.png" alt="Контакты" loading="lazy"><figcaption>Шаг 3: контакты и промокод</figcaption></figure>
+    <figure><img src="shots/desktop-4-done.png" alt="Подтверждение" loading="lazy"><figcaption>Подтверждение с QR</figcaption></figure>
+    <figure><img src="shots/mobile-2-seat.png" alt="Мобильная версия" loading="lazy" style="max-width:280px"><figcaption>Мобильная версия</figcaption></figure>
+  </div>
+
+  <h2>Как сделано</h2>
+  <div class="ai">
+    <p><b>Сделано с ИИ.</b> Прототип собран ИИ-агентом (Claude Code) в моём рабочем процессе: сценарий и решения → генерация → правки по скриншотам на компьютере и телефоне.</p>
+    <p>Заказчик получает не картинки, а работающий интерфейс: можно пройти бронь на своём телефоне и сразу дать правки.</p>
+    <p style="color:#6f6b63;margin-bottom:0">Стек: HTML, CSS, vanilla JS, SVG-карта. «Улей» — вымышленный коворкинг, бронь и оплата ненастоящие.</p>
+  </div>
+
+  <section class="cta">
+    <h2 style="margin-top:0">Нужен такой интерфейс для вашего сервиса?</h2>
+    <p class="lead">Проектирую и собираю интерактивные прототипы и лендинги: бронирование, записи, каталоги, игровые интерфейсы.</p>
+    <div class="btns" style="margin-bottom:0"><a class="btn" href="https://t.me/qintin">Telegram @qintin</a><a class="btn alt" href="https://condrusarsen.github.io/services/" style="background:transparent;color:#fff;border-color:#4a4740">Услуги и цены</a></div>
+  </section>
+  <footer>Арсений Атрохов · <a href="https://condrusarsen.github.io/game-ui-case/">UI-кейс игры</a> · <a href="https://condrusarsen.github.io/playable-ads-demo/">Playable-реклама</a> · <a href="https://github.com/CondrusArsen">GitHub</a></footer>
+</div>
+<script>
+const b = document.getElementById("tourBtn");
+b.addEventListener("click", () => {
+  const visible = getComputedStyle(document.querySelector(".browser")).display !== "none" ? "desk" : "mob";
+  document.getElementById(visible).src = "app.html?tour=1&t=" + Date.now();
+  b.textContent = "⏳ Тур идёт…";
+  document.getElementById(visible).scrollIntoView({ behavior: "smooth", block: "center" });
+});
+addEventListener("message", e => { if (e.data && e.data.type === "tour-done") b.textContent = "▶ Смотреть ещё раз"; });
+</script>
+</body>
+</html>
