@@ -131,7 +131,9 @@ footer{padding:40px 0 60px;color:var(--mute);font-size:14px}
 .mapbox svg{width:100%;height:auto;display:block}
 .seat{cursor:pointer;transition:transform .25s var(--spring)}
 .seat rect{transition:fill .2s,stroke .2s}
-.seat:hover{transform:scale(1.08)}
+.seat:hover,.seat:focus-visible{transform:scale(1.08)}
+.seat:focus-visible{outline:none}
+.seat:focus-visible rect{stroke:#1c1b19;stroke-width:3}
 .seat.taken{cursor:not-allowed}
 .seat.taken:hover{transform:none}
 .seat.dim{opacity:.25}
@@ -198,7 +200,7 @@ footer{padding:40px 0 60px;color:var(--mute);font-size:14px}
 <main class="wrap">
   <section class="hero">
     <div>
-      <span class="eyebrow"><i></i><span id="freeNow">Сейчас свободно 14 мест</span></span>
+      <span class="eyebrow"><i></i><span id="freeNow">Демо: 14 свободных мест сегодня</span></span>
       <h1>Работайте там, где <em>думается</em></h1>
       <p class="lead">Коворкинг в центре Гомеля: тихая зона, переговорки и кофе без ограничений. Бронь места на час, день или месяц — за 30 секунд и без звонков.</p>
       <div class="hero-cta"><button class="btn brand" data-open>Выбрать место →</button><a class="btn ghost" href="#plans">Тарифы</a></div>
@@ -237,7 +239,7 @@ footer{padding:40px 0 60px;color:var(--mute);font-size:14px}
 </main>
 
 <!-- ---------- booking ---------- -->
-<section id="booking" aria-label="Бронирование">
+<section id="booking" role="dialog" aria-modal="true" aria-label="Бронирование места" tabindex="-1">
   <div class="bk-top">
     <button class="close" id="closeBk" aria-label="Закрыть">×</button>
     <div class="steps" id="steps"><div class="step on"><i>1</i><span>Дата и время</span></div><div class="step"><i>2</i><span>Место</span></div><div class="step"><i>3</i><span>Контакты</span></div></div>
@@ -258,7 +260,7 @@ footer{padding:40px 0 60px;color:var(--mute);font-size:14px}
       </div>
       <!-- step 2 -->
       <div class="page right" id="p2">
-        <h2>Выберите место</h2><p class="hint">Наведите на место, чтобы увидеть детали. Серые уже заняты на это время.</p>
+        <h2>Выберите место</h2><p class="hint">Наведите или выберите место клавиатурой, чтобы увидеть детали. Серые заняты на это время. <b>Демо:</b> занятость смоделирована и одинакова для выбранных даты и времени.</p>
         <div class="filters" id="filters"><button class="chip" data-f="window"><svg class="ico" aria-hidden="true"><use href="#i-window"/></svg> У окна</button><button class="chip" data-f="monitor"><svg class="ico" aria-hidden="true"><use href="#i-monitor"/></svg> С монитором</button><button class="chip" data-f="quiet"><svg class="ico" aria-hidden="true"><use href="#i-quiet"/></svg> Тихая зона</button></div>
         <div class="mapbox" id="mapbox"><div id="mapSkel" class="skel" style="height:320px"></div><svg id="seatMap" viewBox="0 0 640 400" style="display:none"></svg><div class="tip" id="tip"></div></div>
         <div class="legend"><span><i style="background:var(--green-soft);border:1.5px solid var(--green)"></i>Свободно</span><span><i style="background:var(--taken)"></i>Занято</span><span><i style="background:var(--ink)"></i>Ваш выбор</span></div>
@@ -278,8 +280,8 @@ footer{padding:40px 0 60px;color:var(--mute);font-size:14px}
         <div class="done-wrap">
           <svg class="tick" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="none" stroke="#2f9e6b" stroke-width="6"/><path d="M30 52l13 13 27-29" fill="none" stroke="#2f9e6b" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>
           <h2>Место ваше!</h2><p class="hint">Подтверждение придёт в SMS. Покажите QR-код на ресепшене.</p>
-          <div class="ticket"><div id="ticketInfo"></div><svg class="qr" id="qr" viewBox="0 0 25 25" shape-rendering="crispEdges"></svg></div>
-          <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><button class="btn ghost" id="addCal"><svg class="ico" aria-hidden="true"><use href="#i-calendar"/></svg> В календарь</button><button class="btn" id="finish">Готово</button></div>
+          <div class="ticket"><div id="ticketInfo"></div><figure style="margin:0;text-align:center"><svg class="qr" id="qr" viewBox="0 0 25 25" shape-rendering="crispEdges" role="img" aria-label="Демо-изображение QR-кода"></svg><figcaption style="font-size:11px;color:var(--mute);margin-top:4px">Демо-QR,<br>не сканируется</figcaption></figure></div>
+          <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><button class="btn ghost" id="addCal" title="Скачать .ics-файл для календаря"><svg class="ico" aria-hidden="true"><use href="#i-calendar"/></svg> В календарь</button><button class="btn" id="finish">Готово</button></div>
         </div>
       </div>
       <div class="mbar" id="mbar"><div class="t"><b id="mTotal">—</b><span id="mInfo">Выберите время</span></div><button class="btn brand" id="mNext" disabled>Далее</button></div>
@@ -314,15 +316,25 @@ function tweenNum(el, to, suffix = " BYN") {
   requestAnimationFrame(step);
 }
 addEventListener("scroll", () => $("#hdr").classList.toggle("scrolled", scrollY > 10));
-setInterval(() => { $("#freeNow").textContent = `Сейчас свободно ${12 + Math.floor(Math.random() * 5)} мест`; }, 4000);
 
 /* ---------- open / close ---------- */
+let opener = null;
 $$("[data-open]").forEach(b => b.addEventListener("click", () => {
   if (b.dataset.plan) setPlan(b.dataset.plan);
-  $("#booking").classList.add("on"); document.body.style.overflow = "hidden";
+  opener = b; $("#booking").classList.add("on"); document.body.style.overflow = "hidden";
+  setTimeout(() => { const f = $("#planSeg button.on") || $("#closeBk"); f.focus(); }, 60);
 }));
+// Keep Tab inside the open booking dialog.
+$("#booking").addEventListener("keydown", e => {
+  if (e.key !== "Tab") return;
+  const f = [...$("#booking").querySelectorAll('button:not([disabled]),input,[tabindex="0"]')].filter(el => el.offsetParent !== null && !el.closest(".page.left,.page.right"));
+  if (!f.length) return;
+  const first = f[0], last = f[f.length - 1];
+  if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+  else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+});
 $("#closeBk").addEventListener("click", closeBooking);
-function closeBooking() { $("#booking").classList.remove("on"); document.body.style.overflow = ""; }
+function closeBooking() { $("#booking").classList.remove("on"); document.body.style.overflow = ""; if (opener) opener.focus(); }
 addEventListener("keydown", e => { if (e.key === "Escape") closeBooking(); });
 
 /* ---------- step 1: plan, date, time ---------- */
@@ -395,7 +407,8 @@ function renderMap() {
     const fit = [...S.filters].every(f => f === "quiet" ? s.zone === "quiet" : s[f]);
     const cls = `seat${s.taken ? " taken" : ""}${S.seat === s.id ? " sel" : ""}${!fit ? " dim" : ""}`;
     const fill = s.taken ? "var(--taken)" : "var(--green-soft)", stroke = s.taken ? "var(--taken)" : "var(--green)";
-    h += `<g class="${cls}" data-id="${s.id}" style="transform-origin:${s.x + 22}px ${s.y + 18}px">
+    const label = `Место ${s.id}, ${s.taken ? "занято" : "свободно"}${s.window ? ", у окна" : ""}${s.monitor ? ", с монитором" : ""}${s.zone === "quiet" ? ", тихая зона" : ""}${S.seat === s.id ? ", выбрано" : ""}`;
+    h += `<g class="${cls}" data-id="${s.id}" role="button" tabindex="${s.taken ? -1 : 0}" aria-label="${label}" aria-pressed="${S.seat === s.id}"${s.taken ? ' aria-disabled="true"' : ""} style="transform-origin:${s.x + 22}px ${s.y + 18}px">
       <rect x="${s.x}" y="${s.y}" width="44" height="36" rx="9" fill="${fill}" stroke="${stroke}" stroke-width="2"/>
       ${s.monitor ? `<rect x="${s.x + 14}" y="${s.y + 4}" width="16" height="3" rx="1.5" fill="${s.taken ? "#bdb7aa" : "var(--green)"}"/>` : ""}
       <text x="${s.x + 22}" y="${s.y + 24}" text-anchor="middle" font-size="12" font-weight="800" fill="${s.taken ? "#9a9488" : "#1c1b19"}">${s.id}</text></g>`;
@@ -408,6 +421,8 @@ function renderMap() {
       S.seat = S.seat === s.id ? null : s.id; renderMap(); update();
     });
     g.addEventListener("mouseenter", () => showTip(g, s)); g.addEventListener("mouseleave", () => $("#tip").classList.remove("on"));
+    g.addEventListener("focus", () => showTip(g, s)); g.addEventListener("blur", () => $("#tip").classList.remove("on"));
+    g.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); g.dispatchEvent(new Event("click")); requestAnimationFrame(() => { const n = $(`.seat[data-id="${s.id}"]`); n && n.focus(); }); } });
   });
 }
 function showTip(g, s) {
@@ -479,7 +494,8 @@ $("#dBack").addEventListener("click", () => goStep(S.step - 1));
 
 /* ---------- step 4: confirmation ---------- */
 function confirmBooking() {
-  const code = "HV-" + (1000 + Math.floor(rnd(Date.now() % 1000) * 9000));
+  const code = "HV-" + (1000 + Math.floor(rnd(S.date.getDate() * 97 + (S.start || 0) * 13 + S.seat.charCodeAt(0) + +S.seat.slice(1)) * 9000));
+  S.code = code;
   $("#ticketInfo").innerHTML = `<div class="k">Бронь</div><div class="v">${code}</div><div class="k">Когда</div><div class="v">${S.date.getDate()} ${MONTHS[S.date.getMonth()]}, ${S.plan === "hour" ? `${S.start}:00–${S.start + S.dur}:00` : S.plan === "day" ? "весь день" : "30 дней"}</div><div class="k">Место</div><div class="v">${S.seat} · ${$("#name").value.trim()}</div>`;
   // Decorative QR-like pattern seeded from the booking code (not a scannable QR).
   let q = ""; const fin = (x, y) => `<rect x="${x}" y="${y}" width="7" height="7" fill="#1c1b19"/><rect x="${x + 1}" y="${y + 1}" width="5" height="5" fill="#fff"/><rect x="${x + 2}" y="${y + 2}" width="3" height="3" fill="#1c1b19"/>`;
@@ -487,7 +503,18 @@ function confirmBooking() {
   $("#qr").innerHTML = q + fin(0, 0) + fin(18, 0) + fin(0, 18);
 }
 $("#finish").addEventListener("click", () => { closeBooking(); setTimeout(() => location.reload(), 500); });
-$("#addCal").addEventListener("click", () => toast("Событие добавлено в календарь (демо)"));
+$("#addCal").addEventListener("click", downloadIcs);
+// Real calendar file for the chosen slot (the booking itself is a demo).
+function downloadIcs() {
+  const d = S.date, pad = n => String(n).padStart(2, "0");
+  const startH = S.plan === "hour" ? S.start : 8, endH = S.plan === "hour" ? S.start + S.dur : 22;
+  const day = `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}`;
+  const ics = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Ulei demo//RU", "BEGIN:VEVENT",
+    `UID:${S.code}@ulei-demo`, `DTSTAMP:${day}T000000`, `DTSTART:${day}T${pad(startH)}0000`, `DTEND:${day}T${pad(endH)}0000`,
+    `SUMMARY:Улей — место ${S.seat} (демо-бронь ${S.code})`, "LOCATION:ул. Советская\\, 21 (демо-адрес)", "END:VEVENT", "END:VCALENDAR"].join("\r\n");
+  const a = Object.assign(document.createElement("a"), { href: URL.createObjectURL(new Blob([ics], { type: "text/calendar" })), download: `ulei-${S.code}.ics` });
+  document.body.appendChild(a); a.click(); a.remove(); toast("Файл .ics скачан — откройте его, чтобы добавить в календарь");
+}
 addEventListener("resize", placeThumb);
 setPlan("hour");
 
