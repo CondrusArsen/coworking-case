@@ -14,6 +14,7 @@
   --ease:cubic-bezier(.4,0,.2,1); --spring:cubic-bezier(.2,.9,.25,1.2);
 }
 *{box-sizing:border-box}
+.ico{width:1em;height:1em;display:inline-block;vertical-align:-.15em;flex:none}
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Manrope,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
 button,input{font:inherit;color:inherit}
@@ -53,8 +54,10 @@ h1 em{font-style:normal;background:linear-gradient(transparent 62%,var(--brand) 
 .stats b{display:block;font-size:28px;font-weight:800;letter-spacing:-.02em}
 .stats span{color:var(--mute);font-size:14px}
 .hero-art{position:relative;aspect-ratio:1/0.9;border-radius:28px;background:linear-gradient(160deg,#fbe6b1,#f2b632);overflow:hidden;box-shadow:var(--shadow)}
-.hero-art svg{position:absolute;inset:0;width:100%;height:100%}
+.hero-art > svg{position:absolute;inset:0;width:100%;height:100%}
 .float{position:absolute;background:var(--surface);border-radius:16px;box-shadow:var(--shadow);padding:12px 14px;font-weight:700;font-size:14px;display:flex;align-items:center;gap:10px;animation:float 5s ease-in-out infinite}
+.float .fi{width:36px;height:36px;border-radius:10px;background:var(--brand-soft);color:#8a5a00;display:grid;place-items:center;font-size:20px}
+.float .fi.ok{background:var(--green-soft);color:var(--green)}
 .float small{display:block;color:var(--mute);font-weight:600;font-size:12px}
 @keyframes float{50%{transform:translateY(-8px)}}
 .section{padding:48px 0}
@@ -63,7 +66,7 @@ h2{font-size:clamp(28px,4vw,40px);letter-spacing:-.02em;line-height:1.1;margin:0
 @media (max-width:900px){.plans{grid-template-columns:1fr}}
 .plan{background:var(--surface);border:1.5px solid var(--line);border-radius:var(--r);padding:22px;display:flex;flex-direction:column;gap:10px;transition:transform .25s var(--ease),box-shadow .25s,border-color .25s}
 .plan:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:var(--brand)}
-.plan .ic{width:48px;height:48px;border-radius:14px;background:var(--brand-soft);display:grid;place-items:center;font-size:24px}
+.plan .ic{width:48px;height:48px;border-radius:14px;background:var(--brand-soft);display:grid;place-items:center;font-size:24px;color:#8a5a00}
 .plan h3{margin:0;font-size:20px}
 .plan p{margin:0;color:var(--mute);font-size:15px}
 .plan .price{font-size:26px;font-weight:800;margin-top:auto}
@@ -73,7 +76,7 @@ h2{font-size:clamp(28px,4vw,40px);letter-spacing:-.02em;line-height:1.1;margin:0
 .amen{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
 @media (max-width:900px){.amen{grid-template-columns:repeat(2,1fr)}}
 .amen div{background:var(--surface);border-radius:var(--r);padding:16px;font-weight:700;display:flex;gap:10px;align-items:center;border:1px solid var(--line)}
-.amen span{font-size:22px}
+.amen span{width:40px;height:40px;border-radius:12px;background:var(--brand-soft);color:#8a5a00;display:grid;place-items:center;font-size:20px;flex:none}
 footer{padding:40px 0 60px;color:var(--mute);font-size:14px}
 
 /* ---------- booking flow ---------- */
@@ -122,7 +125,7 @@ footer{padding:40px 0 60px;color:var(--mute);font-size:14px}
 
 /* seat map */
 .filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
-.chip{height:38px;padding:0 14px;border-radius:999px;background:var(--surface);border:1.5px solid var(--line);font-weight:700;font-size:14px;transition:all .2s}
+.chip{display:inline-flex;align-items:center;gap:6px;height:38px;padding:0 14px;border-radius:999px;background:var(--surface);border:1.5px solid var(--line);font-weight:700;font-size:14px;transition:all .2s}
 .chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
 .mapbox{position:relative;background:var(--surface);border-radius:22px;border:1px solid var(--line);padding:12px;box-shadow:var(--shadow)}
 .mapbox svg{width:100%;height:auto;display:block}
@@ -185,6 +188,7 @@ footer{padding:40px 0 60px;color:var(--mute);font-size:14px}
 </style>
 </head>
 <body>
+<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true"><symbol id="i-chair" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 11V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v6"/><path d="M5 11h14v3H5z"/><path d="M7 14v7M17 14v7M12 14v4"/></symbol><symbol id="i-monitor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></symbol><symbol id="i-key" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M17 6l3 3M15 8l2 2"/></symbol><symbol id="i-quiet" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H3v6h3l5 4z"/><path d="M16 9l5 6M21 9l-5 6"/></symbol><symbol id="i-screen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M10 9l4 2.5L10 14z"/></symbol><symbol id="i-wifi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a15 15 0 0 1 20 0M5 13a10 10 0 0 1 14 0M8.5 16.5a5 5 0 0 1 7 0"/><circle cx="12" cy="20" r="1"/></symbol><symbol id="i-printer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8V3h10v5"/><rect x="3" y="8" width="18" height="9" rx="2"/><path d="M7 14h10v7H7z"/></symbol><symbol id="i-sofa" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3"/><path d="M2 12a2 2 0 0 1 4 0v2h12v-2a2 2 0 0 1 4 0v5H2z"/><path d="M5 17v3M19 17v3"/></symbol><symbol id="i-shower" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V7a4 4 0 0 1 8 0"/><path d="M8 7h8"/><path d="M14 11v1M17 11v1M20 11v1M14 15v1M17 15v1M20 15v1M17 19v1"/></symbol><symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/></symbol><symbol id="i-bike" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="16" r="4"/><circle cx="18" cy="16" r="4"/><path d="M6 16l4-8h5l3 8M10 8l2 8h-6M14 5h3"/></symbol><symbol id="i-window" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M12 3v18M4 12h16"/></symbol><symbol id="i-coffee" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h12v6a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z"/><path d="M16 11h2a2 2 0 0 1 0 4h-2M8 3v3M12 3v3"/></symbol><symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol><symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9.5"/></symbol></svg>
 <header id="hdr"><div class="wrap hdr">
   <div class="logo"><svg viewBox="0 0 32 32"><path d="M16 2l12 7v14l-12 7-12-7V9z" fill="#f2b632"/><path d="M16 9l6 3.5v7L16 23l-6-3.5v-7z" fill="#1c1b19"/></svg>Улей</div>
   <nav><a href="#plans">Тарифы</a><a href="#amen">Что внутри</a><a href="#where">Как добраться</a></nav>
@@ -210,23 +214,23 @@ footer{padding:40px 0 60px;color:var(--mute);font-size:14px}
         <path d="M60 200c0-40 10-70 30-80" stroke="#2f9e6b" stroke-width="6" fill="none" stroke-linecap="round"/><ellipse cx="88" cy="118" rx="18" ry="9" fill="#2f9e6b"/><ellipse cx="70" cy="140" rx="16" ry="8" fill="#2f9e6b" transform="rotate(-30 70 140)"/>
         <rect x="48" y="188" width="28" height="14" rx="4" fill="#fff"/>
       </svg>
-      <div class="float" style="left:20px;top:22px">☕ <div>Кофе включён<small>в любой тариф</small></div></div>
-      <div class="float" style="right:20px;bottom:24px;animation-delay:-2s">🟢 <div>Место A7 свободно<small>у окна · монитор</small></div></div>
+      <div class="float" style="left:20px;top:22px"><span class="fi"><svg class="ico" aria-hidden="true"><use href="#i-coffee"/></svg></span><div>Кофе включён<small>в любой тариф</small></div></div>
+      <div class="float" style="right:20px;bottom:24px;animation-delay:-2s"><span class="fi ok"><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg></span><div>Место A7 свободно<small>у окна · монитор</small></div></div>
     </div>
   </section>
 
   <section class="section" id="plans">
     <h2>Тарифы</h2>
     <div class="plans">
-      <div class="plan"><div class="ic">🪑</div><h3>Гостевой час</h3><p>Любое свободное место в общем зале. Для встречи или пары задач.</p><div class="price">12 BYN <small>/ час</small></div><button class="btn ghost" data-open data-plan="hour">Выбрать</button></div>
-      <div class="plan pop"><div class="ic">🖥️</div><h3>Рабочий день</h3><p>Место на день с 8:00 до 22:00, кофе и печать до 20 листов.</p><div class="price">35 BYN <small>/ день</small></div><button class="btn" data-open data-plan="day">Выбрать</button></div>
-      <div class="plan"><div class="ic">🔑</div><h3>Резидент</h3><p>Своё закреплённое место, локер и доступ 24/7.</p><div class="price">390 BYN <small>/ месяц</small></div><button class="btn ghost" data-open data-plan="month">Выбрать</button></div>
+      <div class="plan"><div class="ic"><svg class="ico" aria-hidden="true"><use href="#i-chair"/></svg></div><h3>Гостевой час</h3><p>Любое свободное место в общем зале. Для встречи или пары задач.</p><div class="price">12 BYN <small>/ час</small></div><button class="btn ghost" data-open data-plan="hour">Выбрать</button></div>
+      <div class="plan pop"><div class="ic"><svg class="ico" aria-hidden="true"><use href="#i-monitor"/></svg></div><h3>Рабочий день</h3><p>Место на день с 8:00 до 22:00, кофе и печать до 20 листов.</p><div class="price">35 BYN <small>/ день</small></div><button class="btn" data-open data-plan="day">Выбрать</button></div>
+      <div class="plan"><div class="ic"><svg class="ico" aria-hidden="true"><use href="#i-key"/></svg></div><h3>Резидент</h3><p>Своё закреплённое место, локер и доступ 24/7.</p><div class="price">390 BYN <small>/ месяц</small></div><button class="btn ghost" data-open data-plan="month">Выбрать</button></div>
     </div>
   </section>
 
   <section class="section" id="amen">
     <h2>Что внутри</h2>
-    <div class="amen"><div><span>🤫</span>Тихая зона</div><div><span>📺</span>3 переговорки</div><div><span>⚡</span>Гигабит Wi-Fi</div><div><span>🖨️</span>Печать и сканер</div><div><span>🛋️</span>Лаунж</div><div><span>🚿</span>Душ</div><div><span>🔒</span>Локеры</div><div><span>🚲</span>Велопарковка</div></div>
+    <div class="amen"><div><span><svg class="ico" aria-hidden="true"><use href="#i-quiet"/></svg></span>Тихая зона</div><div><span><svg class="ico" aria-hidden="true"><use href="#i-screen"/></svg></span>3 переговорки</div><div><span><svg class="ico" aria-hidden="true"><use href="#i-wifi"/></svg></span>Гигабит Wi-Fi</div><div><span><svg class="ico" aria-hidden="true"><use href="#i-printer"/></svg></span>Печать и сканер</div><div><span><svg class="ico" aria-hidden="true"><use href="#i-sofa"/></svg></span>Лаунж</div><div><span><svg class="ico" aria-hidden="true"><use href="#i-shower"/></svg></span>Душ</div><div><span><svg class="ico" aria-hidden="true"><use href="#i-lock"/></svg></span>Локеры</div><div><span><svg class="ico" aria-hidden="true"><use href="#i-bike"/></svg></span>Велопарковка</div></div>
   </section>
   <section class="section" id="where"><h2>Как добраться</h2><p class="lead">ул. Советская, 21, 3 этаж · 5 минут от площади Ленина. Демо-адрес.</p></section>
   <footer>Улей — демо-проект UI/UX. Сделано с ИИ. Бронирование ненастоящее.</footer>
@@ -255,7 +259,7 @@ footer{padding:40px 0 60px;color:var(--mute);font-size:14px}
       <!-- step 2 -->
       <div class="page right" id="p2">
         <h2>Выберите место</h2><p class="hint">Наведите на место, чтобы увидеть детали. Серые уже заняты на это время.</p>
-        <div class="filters" id="filters"><button class="chip" data-f="window">🪟 У окна</button><button class="chip" data-f="monitor">🖥️ С монитором</button><button class="chip" data-f="quiet">🤫 Тихая зона</button></div>
+        <div class="filters" id="filters"><button class="chip" data-f="window"><svg class="ico" aria-hidden="true"><use href="#i-window"/></svg> У окна</button><button class="chip" data-f="monitor"><svg class="ico" aria-hidden="true"><use href="#i-monitor"/></svg> С монитором</button><button class="chip" data-f="quiet"><svg class="ico" aria-hidden="true"><use href="#i-quiet"/></svg> Тихая зона</button></div>
         <div class="mapbox" id="mapbox"><div id="mapSkel" class="skel" style="height:320px"></div><svg id="seatMap" viewBox="0 0 640 400" style="display:none"></svg><div class="tip" id="tip"></div></div>
         <div class="legend"><span><i style="background:var(--green-soft);border:1.5px solid var(--green)"></i>Свободно</span><span><i style="background:var(--taken)"></i>Занято</span><span><i style="background:var(--ink)"></i>Ваш выбор</span></div>
       </div>
@@ -275,7 +279,7 @@ footer{padding:40px 0 60px;color:var(--mute);font-size:14px}
           <svg class="tick" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="none" stroke="#2f9e6b" stroke-width="6"/><path d="M30 52l13 13 27-29" fill="none" stroke="#2f9e6b" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>
           <h2>Место ваше!</h2><p class="hint">Подтверждение придёт в SMS. Покажите QR-код на ресепшене.</p>
           <div class="ticket"><div id="ticketInfo"></div><svg class="qr" id="qr" viewBox="0 0 25 25" shape-rendering="crispEdges"></svg></div>
-          <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><button class="btn ghost" id="addCal">📅 В календарь</button><button class="btn" id="finish">Готово</button></div>
+          <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap"><button class="btn ghost" id="addCal"><svg class="ico" aria-hidden="true"><use href="#i-calendar"/></svg> В календарь</button><button class="btn" id="finish">Готово</button></div>
         </div>
       </div>
       <div class="mbar" id="mbar"><div class="t"><b id="mTotal">—</b><span id="mInfo">Выберите время</span></div><button class="btn brand" id="mNext" disabled>Далее</button></div>
@@ -384,7 +388,7 @@ function renderMap() {
     <rect x="10" y="10" width="620" height="16" rx="8" fill="#cfe6f5"/><text x="320" y="22" text-anchor="middle" font-size="10" fill="#6f6b63" font-weight="700">ОКНА</text>
     <rect x="40" y="215" width="270" height="160" rx="14" fill="#efeadf"/><text x="52" y="236" font-size="12" fill="#6f6b63" font-weight="700">ТИХАЯ ЗОНА</text>
     <rect x="440" y="215" width="170" height="80" rx="14" fill="#fdf1d3" stroke="#f2b632"/><text x="525" y="260" text-anchor="middle" font-size="13" font-weight="800" fill="#3b2a00">Переговорка</text>
-    <rect x="440" y="310" width="170" height="65" rx="14" fill="#e2f4ea"/><text x="525" y="347" text-anchor="middle" font-size="13" font-weight="800" fill="#2f9e6b">☕ Кофе-поинт</text>
+    <rect x="440" y="310" width="170" height="65" rx="14" fill="#e2f4ea"/><text x="525" y="347" text-anchor="middle" font-size="13" font-weight="800" fill="#2f9e6b">Кофе-поинт</text>
     <rect x="470" y="60" width="120" height="110" rx="55" fill="#efeadf"/><text x="530" y="120" text-anchor="middle" font-size="12" fill="#6f6b63" font-weight="700">Лаунж</text>`;
   for (const s of SEATS) {
     s.taken = rnd(key + s.id.charCodeAt(0) * 7 + +s.id.slice(1) * 13) < .35;
